@@ -10,7 +10,7 @@ hydra-colorlog==1.2.0
 hydra-optuna-sweeper==1.2.0
 
 # --------- loggers --------- #
-# wandb
+wandb
 # neptune-client
 # mlflow
 # comet-ml
@@ -22,3 +22,15 @@ pre-commit      # hooks for applying linters on commit
 rich            # beautiful text formatting in terminal
 pytest          # tests
 # sh            # for running bash commands in some tests (linux/macos only)
+
+# --------- extras --------- #
+matplotlib
+pandas
+scikit-learn
+ipykernel
+jupyter
+
+# --------- siren --------- #
+git+https://github.com/CIDeR-ML/siren-lartpc.git@9c6956ff450f9540fabf9f7b1927d25191e74192
+git+https://github.com/CIDeR-ML/siren-pfmatch.git@e00943595218c1ed74217b79588badee0cae4eba
+git+https://github.com/CIDeR-ML/photonlib.git@1dd97deeca56331a48bc8afea1e1302de2239f54

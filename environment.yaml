@@ -52,6 +52,6 @@ dependencies:
       - rootutils
       - gdown
       - scikit-build
-      - git+https://github.com/CIDeR-ML/siren-lartpc.git
-      - git+https://github.com/CIDeR-ML/siren-pfmatch.git
-      - git+https://github.com/CIDeR-ML/photonlib.git
+      - git+https://github.com/CIDeR-ML/siren-lartpc.git@9c6956ff450f9540fabf9f7b1927d25191e74192
+      - git+https://github.com/CIDeR-ML/siren-pfmatch.git@e00943595218c1ed74217b79588badee0cae4eba
+      - git+https://github.com/CIDeR-ML/photonlib.git@1dd97deeca56331a48bc8afea1e1302de2239f54
