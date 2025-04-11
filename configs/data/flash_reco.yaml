@@ -1,0 +1,14 @@
+_target_: src.data.h5_event_datamodule.H5EventDataModule
+data_dir: ${paths.data_dir}/FM
+batch_size: 4 # Needs to be divisible by the number of devices (e.g., if in a distributed setup)
+train_file: "test/kazu_broken.h5"
+val_file: "test/kazu_broken.h5"
+test_file: "test/kazu_broken.h5"
+h5_dataset_name: "pmt"
+num_pmt_ids: 64
+time_min: -18_000_000
+time_max: 18_000_000
+time_bin_width: 1000
+train_val_split: [0.8, 0.2]
+num_workers: 2
+pin_memory: False

@@ -1,0 +1,53 @@
+_target_: src.models.flash_reco_module.FlashRecoLitModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0001
+
+scheduler:
+  _target_: src.utils.scheduler.LinearWarmupCosineAnnealingLR
+  _partial_: true
+  max_epochs: 1000
+  warmup_epochs: 100
+  warmup_start_lr: 0.000001
+  eta_min: 0.000001
+scheduler_interval: epoch
+
+simulator:
+  _target_: src.models.simulators.waveform.BatchedLightSimulation
+  cfg: /sdf/home/y/youngsam/sw/dune/consistency/sirentv/templates/waveform_sim.yaml
+
+net:
+  _target_: src.models.nets.flash_detr.FlashDETR
+  num_pmts: 64
+  num_flash_queries: 100
+  pe_num_ticks: 16_000
+  sigma: 1.0
+  encoder_transformer_kwargs:
+    arch_name: vit_small
+    postnorm: true
+    add_pos_at_every_layer: false
+    drop_rate: 0.0
+    attn_drop_rate: 0.05
+    drop_path_rate: 0.25
+  decoder_transformer_kwargs:
+    arch_name: vit_small
+    postnorm: true
+    add_pos_at_every_layer: false
+    drop_rate: 0.0
+    attn_drop_rate: 0.05
+    drop_path_rate: 0.25
+  tokenizer_hidden_features: 1024
+  tokenizer_linear: "sine"
+  regression_linear: "sine"
+
+regularizer:
+  _target_: src.models.regularizers.ConfidenceSparsityLoss
+  weight: 0.01
+
+# compile model for faster training with pytorch 2.0
+compile: true
+
+watch_grad: true
