@@ -102,7 +102,7 @@ class H5SparseEventDataset(torch.utils.data.Dataset):
         valid_time_mask = (pmt_times >= self.time_min) & (pmt_times < self.time_max)
         valid_id_mask = (pmt_ids >= 0) & (pmt_ids < self.num_pmt_ids)
         valid_mask = valid_time_mask & valid_id_mask
-        assert valid_mask.all(), f"Invalid hits in event {idx}"
+        assert valid_mask.all(), f"Invalid hits in event {idx}, {pmt_ids[~valid_mask]}"
 
         pmt_ids_filt = pmt_ids[valid_mask]
         pmt_times_filt = pmt_times[valid_mask]
@@ -134,4 +134,4 @@ class H5SparseEventDataset(torch.utils.data.Dataset):
         )
         dense_event_tensor = sparse_event_tensor.to_dense()
 
-        return dense_event_tensor
+        return dense_event_tensor[..., :16_000]

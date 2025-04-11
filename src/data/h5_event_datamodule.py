@@ -6,7 +6,7 @@ import torch
 from lightning import LightningDataModule
 from torch.utils.data import DataLoader, random_split
 
-from src.data.components.h5_event_dataset import H5SparseEventDataset
+from .components.h5_event_dataset import H5SparseEventDataset
 
 
 class H5EventDataModule(LightningDataModule):
