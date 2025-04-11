@@ -5,12 +5,13 @@ import numpy as np
 class Mlp(nn.Module):
     def __init__(
         self,
-        in_features,
-        hidden_features=None,
-        out_features=None,
-        linear_layer='linear',
-        act_layer=nn.GELU,
-        drop=0.0,
+        in_features: int,
+        hidden_features: int = None,
+        out_features: int = None,
+        linear_layer: str = 'linear',
+        act_layer: nn.Module = nn.GELU,
+        drop: float = 0.0,
+        outermost_linear: bool = False,
     ):
         super().__init__()
         out_features = out_features or in_features
@@ -25,8 +26,11 @@ class Mlp(nn.Module):
         self.fc1 = linear_layer(in_features, hidden_features, **kwargs)
         self.act = act_layer()
 
-        kwargs = {"is_first": False, "omega_0": 30} if linear_layer == SineLayer else {}
-        self.fc2 = linear_layer(hidden_features, out_features, **kwargs)
+        if not outermost_linear:
+            kwargs = {"is_first": False, "omega_0": 30} if linear_layer == SineLayer else {}
+            self.fc2 = linear_layer(hidden_features, out_features, **kwargs)
+        else:
+            self.fc2 = nn.Linear(hidden_features, out_features)
         self.drop = nn.Dropout(drop) if drop > 0.0 else nn.Identity()
 
     def forward(self, x):
@@ -43,7 +47,12 @@ class SineLayer(nn.Module):
     """
 
     def __init__(
-        self, in_features, out_features, bias=True, is_first=False, omega_0=30
+        self,
+        in_features: int,
+        out_features: int,
+        bias: bool = True,
+        is_first: bool = False,
+        omega_0: float = 30
     ):
         super().__init__()
         self.omega_0 = omega_0

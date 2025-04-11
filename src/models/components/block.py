@@ -13,6 +13,7 @@ class Identity(nn.Module):
     def forward(self, x):
         return x
 
+
 class Block(nn.Module):
     def __init__(
         self,
@@ -82,8 +83,8 @@ class Block(nn.Module):
         kv_normed = self.norm1_kv(kv) if self.norm1_kv is not None else None
 
         _q, attn = self.attn(
-            q=q_normed, 
-            kv=kv_normed, 
+            q=q_normed,
+            kv=kv_normed,
         )
         q = q + self.drop_path(_q)
 

@@ -71,19 +71,12 @@ class BatchedLightSimulation(nn.Module):
             (self.light_window[1] - self.light_window[0]) / self.light_tick_size
         )
 
-        self.time_ticks = torch.arange(self.conv_ticks)
+        self.register_buffer("time_ticks", torch.arange(self.conv_ticks))
 
         self.k = 100
 
         if verbose:
             self.register_grad_hook()
-
-    def to(self, device):
-        self.time_ticks = self.time_ticks.to(device)
-        return super().to(device)
-
-    def cuda(self):
-        return self.to("cuda")
 
     @property
     def device(self):
@@ -112,12 +105,12 @@ class BatchedLightSimulation(nn.Module):
         p1 = (
             self.singlet_fraction
             * torch.exp(-t / self.tau_s)
-            * (1 - torch.exp(-self.light_tick_size / self.tau_s))
+            * (1 - np.exp(-self.light_tick_size / self.tau_s))
         )
         p3 = (
             (1 - self.singlet_fraction)
             * torch.exp(-t / self.tau_t)
-            * (1 - torch.exp(-self.light_tick_size / self.tau_t))
+            * (1 - np.exp(-self.light_tick_size / self.tau_t))
         )
 
         if relax_cut:
